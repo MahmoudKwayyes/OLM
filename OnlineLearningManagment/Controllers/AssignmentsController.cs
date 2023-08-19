@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Olm.Service.DTOs.Assigments;
 using Olm.Service.Interfaces;
+using OnlineLearningManagment.Models;
 
 namespace OnlineLearningManagment.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class AssignmentsController : ControllerBase
+public class AssignmentsController : BaseController
 {
     private readonly IAssignmentService AssignmentService;
     public AssignmentsController(IAssignmentService AssignmentService)
@@ -16,31 +15,43 @@ public class AssignmentsController : ControllerBase
 
     [HttpPost("create")]
     public async Task<IActionResult> CreateAsync(AssignmentCreationDto Assignment)
-    {
-        return Ok(await AssignmentService.AddAsync(Assignment));
-    }
-
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await AssignmentService.AddAsync(Assignment)
+        });
     [HttpPut("update")]
     public async Task<IActionResult> UpdateAsync(AssignmentUpdateDto Assignment)
-    {
-        return Ok(await AssignmentService.UpdateAsync(Assignment));
-    }
-
-    [HttpDelete("delete")]
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await AssignmentService.UpdateAsync(Assignment)
+        });
+    [HttpDelete("delete/{id:long}")]
     public async Task<IActionResult> DeleteAsync(long id)
-    {
-        return Ok(await AssignmentService.RemoveAsync(id));
-    }
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await AssignmentService.RemoveAsync(id)
+        });
 
-    [HttpGet("get")]
+    [HttpGet("get/{id:long}")]
     public async Task<IActionResult> GetByIdAsync(long id)
-    {
-        return Ok(await AssignmentService.GetByIdAsync(id));
-    }
-
-    [HttpGet("getAll")]
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await AssignmentService.GetByIdAsync(id)
+        });
+    [HttpGet("get-all")]
     public async Task<IActionResult> GetAll()
-    {
-        return Ok(await AssignmentService.GetAllAsync());
-    }
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await AssignmentService.GetAllAsync()
+        });
 }

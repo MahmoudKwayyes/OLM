@@ -5,6 +5,7 @@ using Olm.Data.Repositories;
 using Olm.Service.Interfaces;
 using Olm.Service.Mappers;
 using Olm.Service.Services;
+using OnlineLearningManagment.Extensions;
 using OnlineLearningManagment.Middleware;
 using Serilog;
 
@@ -28,18 +29,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-builder.Services.AddScoped<IAnswerService, AnswerService>();
-builder.Services.AddScoped<IAssignmentService, AssignmentService>();
-builder.Services.AddScoped<ILessonService, LessonService>();
-builder.Services.AddScoped<IProgressTrackingService, ProgressTrackingService>();
-builder.Services.AddScoped<IQuestionService, QuestionService>();
-builder.Services.AddScoped<IQuizService, QuizService>();
-builder.Services.AddScoped<IUserEnrollmentService, UserEnrollmentService>();
-builder.Services.AddScoped<ICourseService, CourseService>();
 
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-builder.Services.AddAutoMapper(typeof(MapperProfile));
-
+builder.Services.AddServices();
 
 var app = builder.Build();
 

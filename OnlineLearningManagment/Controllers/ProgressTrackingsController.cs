@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Olm.Service.DTOs.ProgressTrackings;
 using Olm.Service.Interfaces;
+using OnlineLearningManagment.Models;
 
 namespace OnlineLearningManagment.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class ProgressTrackingsController : ControllerBase
+public class ProgressTrackingsController : BaseController
 {
     private readonly IProgressTrackingService ProgressTrackingService;
     public ProgressTrackingsController(IProgressTrackingService ProgressTrackingService)
@@ -16,31 +15,44 @@ public class ProgressTrackingsController : ControllerBase
 
     [HttpPost("create")]
     public async Task<IActionResult> CreateAsync(ProgressTrackingCreationDto ProgressTracking)
-    {
-        return Ok(await ProgressTrackingService.AddAsync(ProgressTracking));
-    }
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await ProgressTrackingService.AddAsync(ProgressTracking)
+        });
 
     [HttpPut("update")]
     public async Task<IActionResult> UpdateAsync(ProgressTrackingUpdateDto ProgressTracking)
-    {
-        return Ok(await ProgressTrackingService.UpdateAsync(ProgressTracking));
-    }
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await ProgressTrackingService.UpdateAsync(ProgressTracking)
+        });
 
-    [HttpDelete("delete")]
+    [HttpDelete("delete/{id:long}")]
     public async Task<IActionResult> DeleteAsync(long id)
-    {
-        return Ok(await ProgressTrackingService.RemoveAsync(id));
-    }
-
-    [HttpGet("get")]
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await ProgressTrackingService.RemoveAsync(id)
+        });
+    [HttpGet("get/{id:long}")]
     public async Task<IActionResult> GetByIdAsync(long id)
-    {
-        return Ok(await ProgressTrackingService.GetByIdAsync(id));
-    }
-
-    [HttpGet("getAll")]
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await ProgressTrackingService.GetByIdAsync(id)
+        });
+    [HttpGet("get-all")]
     public async Task<IActionResult> GetAll()
-    {
-        return Ok(await ProgressTrackingService.GetAllAsync());
-    }
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await ProgressTrackingService.GetAllAsync()
+        });
 }

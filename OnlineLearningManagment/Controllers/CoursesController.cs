@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Olm.Service.DTOs.Courses;
 using Olm.Service.Interfaces;
+using OnlineLearningManagment.Models;
 
 namespace OnlineLearningManagment.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class CoursesController : ControllerBase
+public class CoursesController : BaseController
 {
     private readonly ICourseService courseService;
     public CoursesController(ICourseService courseService)
@@ -16,31 +15,46 @@ public class CoursesController : ControllerBase
 
     [HttpPost("create")]
     public async Task<IActionResult> CreateAsync(CourseCreationDto course)
-    {
-        return Ok(await courseService.AddAsync(course));
-    }
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await courseService.AddAsync(course)
+        });
 
     [HttpPut("update")]
     public async Task<IActionResult> UpdateAsync(CourseUpdateDto course)
-    {
-        return Ok(await courseService.UpdateAsync(course));
-    }
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await courseService.UpdateAsync(course)
+        });
 
-    [HttpDelete("delete")]
+    [HttpDelete("delete/{id:long}")]
     public async Task<IActionResult> DeleteAsync(long id)
-    {
-        return Ok(await courseService.RemoveAsync(id));
-    }
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await courseService.RemoveAsync(id)
+        });
 
-    [HttpGet("get")]
+    [HttpGet("get/{id:long}")]
     public async Task<IActionResult> GetByIdAsync(long id)
-    {
-        return Ok(await courseService.GetByIdAsync(id));
-    }
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await courseService.GetByIdAsync(id)
+        });
 
-    [HttpGet("getAll")]
+    [HttpGet("get-all")]
     public async Task<IActionResult> GetAll()
-    {
-        return Ok(await courseService.GetAllAsync());
-    }
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await courseService.GetAllAsync()
+        });
 }

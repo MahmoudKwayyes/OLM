@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Olm.Service.DTOs.Quizzes;
 using Olm.Service.Interfaces;
+using OnlineLearningManagment.Models;
 
 namespace OnlineLearningManagment.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class QuestionsController : ControllerBase
+public class QuestionsController : BaseController
 {
     private readonly IQuestionService QuestionService;
     public QuestionsController(IQuestionService QuestionService)
@@ -16,31 +15,46 @@ public class QuestionsController : ControllerBase
 
     [HttpPost("create")]
     public async Task<IActionResult> CreateAsync(QuestionCreationDto Question)
-    {
-        return Ok(await QuestionService.AddAsync(Question));
-    }
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await QuestionService.AddAsync(Question)
+        });
 
     [HttpPut("update")]
     public async Task<IActionResult> UpdateAsync(QuestionUpdateDto Question)
-    {
-        return Ok(await QuestionService.UpdateAsync(Question));
-    }
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await QuestionService.UpdateAsync(Question)
+        });
 
-    [HttpDelete("delete")]
+    [HttpDelete("delete/{id:long}")]
     public async Task<IActionResult> DeleteAsync(long id)
-    {
-        return Ok(await QuestionService.RemoveAsync(id));
-    }
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await QuestionService.RemoveAsync(id)
+        });
 
-    [HttpGet("get")]
+    [HttpGet("get/{id:long}")]
     public async Task<IActionResult> GetByIdAsync(long id)
-    {
-        return Ok(await QuestionService.GetByIdAsync(id));
-    }
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await QuestionService.GetByIdAsync(id)
+        });
 
-    [HttpGet("getAll")]
+    [HttpGet("get-all")]
     public async Task<IActionResult> GetAll()
-    {
-        return Ok(await QuestionService.GetAllAsync());
-    }
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await QuestionService.GetAllAsync()
+        });
 }
